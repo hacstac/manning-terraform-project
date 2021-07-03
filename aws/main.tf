@@ -1,10 +1,10 @@
 terraform {
   backend "s3" {
     bucket         = "manning-terraform-n4u3ev-state-bucket"
-    key            = "ar/manning-tf-project"
+    key            = "hacstac/manning-tf-project"
     region         = "ap-south-1"
     encrypt        = true
-    role_arn       = "arn:aws:iam::{user_id}:role/manning-terraform-n4u3ev-tf-assume-role"
+    role_arn       = "arn:aws:iam::XXX:role/manning-terraform-n4u3ev-tf-assume-role"
     dynamodb_table = "manning-terraform-n4u3ev-state-lock"
   }
   required_providers {
@@ -20,15 +20,11 @@ provider "aws" {
 }
 
 module "users" {
-  source = "./modules/cloudesk-user/"
+  source = "../modules/cloudesk-user/"
   for_each = toset([
-    for i in range(10) : format("user-%02d", i)
+    for i in range(10) : format("aws-%02d", i)
   ])
 
   name = each.key
-
-  providers = {
-    aws = aws
-  }
 }
 

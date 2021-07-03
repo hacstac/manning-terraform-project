@@ -12,15 +12,11 @@ provider "aws" {
 }
 
 module "users" {
-  source = "./modules/cloudesk-user/"
+  source = "../modules/cloudesk-user/"
   for_each = toset([
-    for i in range(10) : format("user-%02d", i)
+    for i in range(10) : format("local-%02d", i)
   ])
 
   name = each.key
-
-  providers = {
-    aws = aws
   }
-}
 
